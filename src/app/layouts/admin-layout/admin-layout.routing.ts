@@ -6,12 +6,13 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import {UsersComponent} from "../../pages/users/users.component";
+import {InventoryComponent} from "../../pages/inventory/inventory.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'users',      component: UsersComponent },
+    { path: 'inventory',      component: InventoryComponent },
     { path: 'user-profile',   component: UserProfileComponent },
     { path: 'tables',         component: TablesComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent }
+    { path: 'icons',          component: IconsComponent }
 ];

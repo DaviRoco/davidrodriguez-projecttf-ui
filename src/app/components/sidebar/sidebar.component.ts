@@ -9,10 +9,11 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Dashboard',  icon: 'ni-chart-bar-32 text-primary', class: '' },
-    { path: '/users', title: 'Usuarios',  icon: 'ni-badge text-primary', class: '' },
-    { path: '/icons', title: 'Icons',  icon: 'ni-tv-2 text-primary', class: '' },
+    { path: '/users', title: 'Usuarios',  icon: 'ni-badge text-green', class: '' },
+    { path: '/inventory', title: 'Inventario',  icon: 'ni-app text-black', class: '' },
     { path: '/user-profile', title: 'Perfil',  icon:'ni-single-02 text-yellow', class: '' },
-    { path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' }
+    { path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' },
+    { path: '/icons', title: 'Icons',  icon: 'ni-tv-2 text-primary', class: '' }
 ];
 
 @Component({
