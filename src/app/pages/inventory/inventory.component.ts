@@ -20,7 +20,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   //Inventory update variables
   @ViewChild('totalSales') totalSales!: ElementRef<HTMLInputElement>;
   @ViewChild('totalRestock') totalRestock!: ElementRef<HTMLInputElement>;
-  updateType: string = 'venta';
+  updateType: string = 'restock';
   inventoryId: BigInt;
   selectedItemId: string;
   description: string;
@@ -39,7 +39,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getItemNames();
-    this.updateType = 'restock';
   }
   getItemNames() {
     this.inventorySubscription = this.inventoryService.getItems().subscribe({
@@ -75,7 +74,12 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.selectedItemId = inventory.itemId;
     this.description = inventory.description;
     const totalInputRestock = document.getElementById('input-total-restock') as HTMLInputElement;
-    totalInputRestock.value = '0';
+    const totalInputSales = document.getElementById('input-total-sales') as HTMLInputElement;
+    if (totalInputRestock) {
+      totalInputRestock.value = '0';
+    } else {
+      totalInputSales.value = '0';
+    }
     this.showInventoryModal = true;
 
   }
