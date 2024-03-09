@@ -31,4 +31,8 @@ export class InventoryService {
       })
     );
   }
+
+  updateInventory(inventory: InventoryDto): Observable<any> {
+    return this.http.put<any>(this.apiUrlInventory, inventory);
+  }
 }

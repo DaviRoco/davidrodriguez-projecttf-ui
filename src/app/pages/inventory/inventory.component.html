@@ -21,108 +21,93 @@
             <thead class="thead-light">
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">Total</th>
-              <th scope="col">Item ID</th>
+              <th scope="col">Unidades</th>
               <th scope="col">Item Name</th>
               <th scope="col">Descripción</th>
+              <th scope="col">Editar</th>
             </tr>
             </thead>
             <tbody *ngFor="let inventory of inventories; index as i">
             <tr>
               <td>{{ inventory.id }}</td>
-              <td>{{ inventory.total }}</td>
-              <td>{{ inventory.itemId }} </td>
-              <td>{{ inventory.itemName }} </td>
-              <td>{{ inventory.description }} </td>
-            </tr>
-<!--            <tr>-->
-<!--              <th scope="row">-->
-<!--                <div class="media align-items-center">-->
-<!--                  <a href="javascript:void(0)" class="avatar rounded-circle mr-3">-->
-<!--                    <img alt="Image placeholder" src="../assets/img/theme/bootstrap.jpg">-->
-<!--                  </a>-->
-<!--                  <div class="media-body">-->
-<!--                    <span class="mb-0 text-sm">Argon Design System</span>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </th>-->
-<!--              <td>-->
-<!--                $2,500 USD-->
-<!--              </td>-->
-<!--              <td>-->
-<!--                  <span class="badge badge-dot mr-4">-->
-<!--                    <i class="bg-warning"></i> pending-->
-<!--                  </span>-->
-<!--              </td>-->
-<!--              <td>-->
-<!--                <div class="avatar-group">-->
-<!--                  <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">-->
-<!--                    <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">-->
-<!--                  </a>-->
-<!--                  <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">-->
-<!--                    <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">-->
-<!--                  </a>-->
-<!--                  <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">-->
-<!--                    <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">-->
-<!--                  </a>-->
-<!--                  <a href="javascript:void(0)" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">-->
-<!--                    <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">-->
-<!--                  </a>-->
-<!--                </div>-->
-<!--              </td>-->
-<!--              <td>-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <span class="mr-2">60%</span>-->
-<!--                  <div>-->
-<!--                    <div class="progress">-->
-<!--                      <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </td>-->
-<!--              <td class="text-right">-->
-<!--                <div ngbDropdown placement="bottom-right">-->
-<!--                  <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>-->
-<!--                    <i class="fas fa-ellipsis-v"></i>-->
-<!--                  </a>-->
-<!--                  <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">-->
-<!--                    <a class="dropdown-item" href="javascript:void(0)">Action</a>-->
-<!--                    <a class="dropdown-item" href="javascript:void(0)">Another action</a>-->
-<!--                    <a class="dropdown-item" href="javascript:void(0)">Something else here</a>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </td>-->
-<!--            </tr>-->
+              <td>
+                <i class="fas fa-shopping-basket text-success mr-3"></i>{{ inventory.total }}
+              </td>
+              <td>
 
+                <i class="fas fa-pencil-ruler text-primary mr-3"></i>{{ inventory.itemName }}
+              </td>
+              <td>
+                <i class="fas fa-book-open text-primary mr-3"></i>{{ inventory.description }}
+              </td>
+              <td>
+                <a (click)="openUpdateModal(inventory)" class="btn btn-sm btn-success">
+                  Editar
+                </a>
+              </td>
+            </tr>
             </tbody>
           </table>
         </div>
         <div class="card-footer py-4">
-          <nav aria-label="...">
-            <ul class="pagination justify-content-end mb-0">
-              <li class="page-item disabled">
-                <a class="page-link" href="javascript:void(0)" tabindex="-1">
-                  <i class="fas fa-angle-left"></i>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="javascript:void(0)">1</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">
-                  <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div class="modal" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
+  <div class="modal-overlay">
+
+  </div>
+  <div class="card-body">
+    <form>
+      <h6 class="heading-small text-muted mb-4">Información de Inventario</h6>
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label class="form-control-label" for="input-item">Item</label>
+              <select id="input-item" class="form-control form-control-alternative" [(ngModel)]="selectedItemId">
+                <option *ngFor="let item of items" [value]="item.id">{{ item.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label" for="input-total">Tipo de actualización</label>
+              <select id="input-total" class="form-control form-control-alternative" (change)="onUpdateTypeChange($event.target.value)">
+                <option value="venta">Venta</option>
+                <option value="restock">Re-Stock</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group" *ngIf="updateType === 'venta'">
+              <label class="form-control-label" for="input-total-sales">Cantidad de Unidades vendidas</label>
+              <input type="text" id="input-total-sales" class="form-control form-control-alternative" placeholder="Unidades vendidas" autocomplete="off">
+            </div>
+            <div class="form-group" *ngIf="updateType === 'restock'">
+              <label class="form-control-label" for="input-total-restock">Cantidad de Unidades nuevas</label>
+              <input type="text" id="input-total-restock" class="form-control form-control-alternative" placeholder="Unidades nuevas" autocomplete="off">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label class="form-control-label" for="input-description">Descripción</label>
+              <textarea id="input-description" class="form-control form-control-alternative" placeholder="Descripción" [value]="description"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="salesError" class="text-center text-danger mb-4">Cantidad de ventas inválida.</div>
+    <div class="col text-mg-left">
+      <a (click)="closeModal()" class="btn btn-danger">Cerrar</a>
+      <a (click)="updateInventory()" class="btn btn-success">Actualizar</a>
     </div>
   </div>
 </div>

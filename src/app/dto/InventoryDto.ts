@@ -1,11 +1,11 @@
 export class InventoryDto {
   id: BigInt;
-  total: bigint;
+  total: number;
   description: string;
-  itemId: BigInt;
+  itemId: string;
   itemName: string;
 
-  constructor(id: BigInt, total: bigint, description: string, itemId: BigInt, itemName: string) {
+  constructor(id: BigInt, total: number, description: string, itemId: string, itemName: string) {
     this.id = id;
     this.total = total;
     this.description = description;

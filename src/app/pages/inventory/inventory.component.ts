@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {InventoryService} from "./inventory.service";
-import {forkJoin, Subscription} from "rxjs";
 import {InventoryDto} from "../../dto/InventoryDto";
 import {ItemDto} from "../../dto/ItemDto";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-tables',
@@ -13,16 +13,23 @@ export class InventoryComponent implements OnInit, OnDestroy {
   inventories: InventoryDto[] = [];
   items: ItemDto[] = [];
   inventorySubscription: Subscription;
+  showModal: boolean = false;
+  updateType: string = 'venta';
+  inventoryId: BigInt;
+  selectedItemId: string;
+  description: string;
+  currentTotal: number;
+  salesError: boolean;
   constructor(private inventoryService: InventoryService) { }
 
   ngOnInit() {
     this.getItemNames();
-    this.getInventoryWithItemNames();
   }
   getItemNames() {
     this.inventorySubscription = this.inventoryService.getItems().subscribe({
       next: (response) => {
         this.items = response;
+        this.getInventoryWithItemNames();
       },
       error: (error) => {
         console.error('Error fetching data:', error);
@@ -45,6 +52,53 @@ export class InventoryComponent implements OnInit, OnDestroy {
         console.error('Error fetching data:', error);
       }
     });
+  }
+  openUpdateModal(inventory: InventoryDto) {
+    const totalInputSales = document.getElementById('input-total-sales') as HTMLInputElement;
+    const totalInputRestock = document.getElementById('input-total-restock') as HTMLInputElement;
+    this.currentTotal = inventory.total;
+    this.inventoryId = inventory.id;
+    this.selectedItemId = inventory.itemId;
+    this.description = inventory.description;
+    this.showModal = true;
+
+    totalInputRestock.value = '';
+    totalInputSales.value = '';
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.salesError = false;
+    const descriptionInput = document.getElementById('input-description') as HTMLInputElement;
+    descriptionInput.value = '';
+  }
+
+  onUpdateTypeChange(value: string) {
+    this.updateType = value;
+  }
+
+  updateInventory() {
+    const itemId = document.getElementById('input-item') as HTMLInputElement;
+    const description = document.getElementById('input-description') as HTMLInputElement;
+    let totalInput: HTMLInputElement;
+    let total: number;
+    if (this.updateType == 'venta') {
+      totalInput = document.getElementById('input-total-sales') as HTMLInputElement;
+      if (parseInt(totalInput.value) <= this.currentTotal) {
+        total = parseInt(totalInput.value) * -1;
+      } else {
+        this.salesError = true;
+        return;
+      }
+    } else {
+      totalInput = document.getElementById('input-total-restock') as HTMLInputElement;
+      total = parseInt(totalInput.value);
+    }
+    const newInventory = new InventoryDto(this.inventoryId, total, description.value, itemId.value, "")
+    this.inventoryService.updateInventory(newInventory).subscribe(() => {
+      this.getInventoryWithItemNames();
+      this.closeModal();
+    })
   }
 
   ngOnDestroy() {
