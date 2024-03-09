@@ -11,7 +11,7 @@
 <!-- Page content -->
 <div class="container-fluid mt--7">
   <div class="row">
-    <div class="col">
+    <div class="col-xl-8 mb-5 mb-xl-0">
       <div class="card shadow">
         <div class="card-header border-0">
           <h3 class="mb-0">Inventario</h3>
@@ -24,7 +24,7 @@
               <th scope="col">Unidades</th>
               <th scope="col">Item Name</th>
               <th scope="col">Descripción</th>
-              <th scope="col">Editar</th>
+              <th scope="col"></th>
             </tr>
             </thead>
             <tbody *ngFor="let inventory of inventories; index as i">
@@ -50,6 +50,44 @@
           </table>
         </div>
         <div class="card-footer py-4">
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Items </h3>
+            </div>
+            <div class="col text-right">
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <!-- Projects table -->
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                ID
+              </td>
+              <td>
+                Nombre
+              </td>
+              <td>
+                Editar
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
