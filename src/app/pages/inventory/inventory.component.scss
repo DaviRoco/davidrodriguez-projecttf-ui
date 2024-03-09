@@ -46,7 +46,22 @@
   border-radius: 10px;
 }
 
+.truncate-text {
+  max-width: 150px; /* Adjust as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn-insert {
+  background-color: #0ea5c3; /* Set the background color */
+  border-color: #0ea5c3; /* Set the border color */
+  color: white; /* Set the text color */
+}
 
+.btn-insert:hover {
+  background-color: #0c8aa2; /* Change color on hover */
+  border-color: #0c8aa2; /* Change border color on hover */
+}
 @keyframes slideIn {
   from {
     transform: translate(-50%, -100%);

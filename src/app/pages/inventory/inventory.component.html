@@ -14,7 +14,15 @@
     <div class="col-xl-8 mb-5 mb-xl-0">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h3 class="mb-0">Inventario</h3>
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Inventario</h3>
+            </div>
+            <div class="col text-right">
+<!--              TODO: POST INVENTORY-->
+              <a class="btn btn-insert">Agregar Inventario</a>
+            </div>
+          </div>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -22,8 +30,9 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Unidades</th>
-              <th scope="col">Item Name</th>
+              <th scope="col">Nombre de Item</th>
               <th scope="col">Descripción</th>
+              <th scope="col"></th>
               <th scope="col"></th>
             </tr>
             </thead>
@@ -37,12 +46,18 @@
 
                 <i class="fas fa-pencil-ruler text-primary mr-3"></i>{{ inventory.itemName }}
               </td>
-              <td>
+              <td class="truncate-text">
                 <i class="fas fa-book-open text-primary mr-3"></i>{{ inventory.description }}
               </td>
               <td>
-                <a (click)="openUpdateModal(inventory)" class="btn btn-sm btn-success">
+                <a (click)="openInventoryUpdateModal(inventory)" class="btn btn-sm btn-primary">
                   Editar
+                </a>
+              </td>
+              <td>
+<!--                TODO: DELETE Inventory-->
+                <a (click)="openDeleteModal(inventory.id)" class="btn btn-sm btn-danger">
+                  Eliminar
                 </a>
               </td>
             </tr>
@@ -61,11 +76,12 @@
               <h3 class="mb-0">Items </h3>
             </div>
             <div class="col text-right">
+<!--              TODO: POST ITEM-->
+              <a class="btn btn-insert">Agregar Item</a>
             </div>
           </div>
         </div>
         <div class="table-responsive">
-          <!-- Projects table -->
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
             <tr>
@@ -74,26 +90,30 @@
               <th scope="col"></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody *ngFor="let item of items; index as i">
             <tr>
               <td>
-                ID
+                {{ item.id }}
+              </td>
+              <td class="truncate-text">
+                {{ item.name }}
               </td>
               <td>
-                Nombre
-              </td>
-              <td>
-                Editar
+                <a (click)="openItemUpdateModal(item)" class="btn btn-sm btn-primary">
+                  Editar
+                </a>
               </td>
             </tr>
             </tbody>
           </table>
         </div>
+        <div class="card-footer py-4">
+        </div>
       </div>
     </div>
   </div>
 </div>
-<div class="modal" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
+<div class="modal" [ngStyle]="{'display': showInventoryModal ? 'block' : 'none'}">
   <div class="modal-overlay">
 
   </div>
@@ -123,12 +143,12 @@
           </div>
           <div class="col-lg-6">
             <div class="form-group" *ngIf="updateType === 'venta'">
-              <label class="form-control-label" for="input-total-sales">Cantidad de Unidades vendidas</label>
-              <input type="text" id="input-total-sales" class="form-control form-control-alternative" placeholder="Unidades vendidas" autocomplete="off">
+              <label class="form-control-label"  for="input-total-sales">Cantidad de Unidades vendidas</label>
+              <input type="number" id="input-total-sales" #totalSales class="form-control form-control-alternative" placeholder="Unidades vendidas" autocomplete="off">
             </div>
             <div class="form-group" *ngIf="updateType === 'restock'">
               <label class="form-control-label" for="input-total-restock">Cantidad de Unidades nuevas</label>
-              <input type="text" id="input-total-restock" class="form-control form-control-alternative" placeholder="Unidades nuevas" autocomplete="off">
+              <input type="number" id="input-total-restock" #totalRestock class="form-control form-control-alternative" placeholder="Unidades nuevas" autocomplete="off">
             </div>
           </div>
         </div>
@@ -142,10 +162,64 @@
         </div>
       </div>
     </form>
-    <div *ngIf="salesError" class="text-center text-danger mb-4">Cantidad de ventas inválida.</div>
+    <div *ngIf="salesError" class="text-center text-danger mb-4">{{ salesErrorMessage }}</div>
     <div class="col text-mg-left">
-      <a (click)="closeModal()" class="btn btn-danger">Cerrar</a>
+      <a (click)="closeInventoryModal()" class="btn btn-danger">Cerrar</a>
       <a (click)="updateInventory()" class="btn btn-success">Actualizar</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" [ngStyle]="{'display': showItemModal ? 'block' : 'none'}">
+  <div class="modal-overlay">
+
+  </div>
+  <div class="card-body">
+    <form>
+      <h6 class="heading-small text-muted mb-4">Información de Item</h6>
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <div class="form-group">
+                <label class="form-control-label" for="input-item-name">Nombre</label>
+                <input type="text" id="input-item-name" class="form-control form-control-alternative" placeholder="Nombre" autocomplete="off" [value]="itemName">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="col text-mg-left">
+      <a (click)="closeItemModal()" class="btn btn-danger">Cerrar</a>
+      <a (click)="updateItem()" class="btn btn-success">Actualizar</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
+  <div class="modal-overlay"></div>
+  <div class="card-body">
+    <form>
+      <h3 class="heading-large text-muted mb-4">¡Advertencia!</h3>
+      <h3 class="text-danger">Estás a punto de eliminar el siguiente elemento. Por favor, ten cuidado y confirma tu decisión escribiendo "confirmar".</h3>
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <div class="form-group">
+                <label class="form-control-label" for="input-item-name">Continuar?</label>
+                <input type="text" id="input-confirm-delete" class="form-control form-control-alternative" placeholder="confirmar" autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="deleteError" class="text-center text-danger mb-4">{{ deleteErrorMessage }}</div>
+    <div class="col text-mg-left">
+      <a (click)="closeDeleteModal()" class="btn btn-dark">Cancelar</a>
+      <a (click)="deleteElement()" class="btn btn-danger">Eliminar</a>
     </div>
   </div>
 </div>

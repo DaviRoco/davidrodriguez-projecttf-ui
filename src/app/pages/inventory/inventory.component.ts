@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import {InventoryService} from "./inventory.service";
 import {InventoryDto} from "../../dto/InventoryDto";
 import {ItemDto} from "../../dto/ItemDto";
@@ -13,17 +13,33 @@ export class InventoryComponent implements OnInit, OnDestroy {
   inventories: InventoryDto[] = [];
   items: ItemDto[] = [];
   inventorySubscription: Subscription;
-  showModal: boolean = false;
+  // show modals for Inventory and Item updates
+  showInventoryModal: boolean = false;
+  showItemModal: boolean = false;
+  showDeleteModal: boolean = false;
+  //Inventory update variables
+  @ViewChild('totalSales') totalSales!: ElementRef<HTMLInputElement>;
+  @ViewChild('totalRestock') totalRestock!: ElementRef<HTMLInputElement>;
   updateType: string = 'venta';
   inventoryId: BigInt;
   selectedItemId: string;
   description: string;
   currentTotal: number;
+  //Item update variables
+  itemName: string;
+  itemId: BigInt;
+  //Delete procedures variables
+  toBeDeletedId: BigInt;
+  //Error variables
   salesError: boolean;
+  salesErrorMessage: string;
+  deleteError: boolean;
+  deleteErrorMessage: string;
   constructor(private inventoryService: InventoryService) { }
 
   ngOnInit() {
     this.getItemNames();
+    this.updateType = 'restock';
   }
   getItemNames() {
     this.inventorySubscription = this.inventoryService.getItems().subscribe({
@@ -53,28 +69,44 @@ export class InventoryComponent implements OnInit, OnDestroy {
       }
     });
   }
-  openUpdateModal(inventory: InventoryDto) {
-    const totalInputSales = document.getElementById('input-total-sales') as HTMLInputElement;
-    const totalInputRestock = document.getElementById('input-total-restock') as HTMLInputElement;
+  openInventoryUpdateModal(inventory: InventoryDto) {
     this.currentTotal = inventory.total;
     this.inventoryId = inventory.id;
     this.selectedItemId = inventory.itemId;
     this.description = inventory.description;
-    this.showModal = true;
+    const totalInputRestock = document.getElementById('input-total-restock') as HTMLInputElement;
+    totalInputRestock.value = '0';
+    this.showInventoryModal = true;
 
-    totalInputRestock.value = '';
-    totalInputSales.value = '';
   }
 
-  closeModal() {
-    this.showModal = false;
+  closeInventoryModal() {
+    this.showInventoryModal = false;
     this.salesError = false;
-    const descriptionInput = document.getElementById('input-description') as HTMLInputElement;
-    descriptionInput.value = '';
+    this.description = '';
   }
 
-  onUpdateTypeChange(value: string) {
-    this.updateType = value;
+  openItemUpdateModal(item: ItemDto) {
+    this.itemId = item.id;
+    this.itemName = item.name;
+    this.showItemModal = true;
+  }
+
+  closeItemModal() {
+    this.showItemModal = false;
+  }
+
+  openDeleteModal(id: BigInt) {
+    this.toBeDeletedId = id;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+  }
+
+  deleteElement() {
+
   }
 
   updateInventory() {
@@ -87,6 +119,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
       if (parseInt(totalInput.value) <= this.currentTotal) {
         total = parseInt(totalInput.value) * -1;
       } else {
+        this.salesErrorMessage = "Cantidad de ventas inválida.";
         this.salesError = true;
         return;
       }
@@ -97,10 +130,21 @@ export class InventoryComponent implements OnInit, OnDestroy {
     const newInventory = new InventoryDto(this.inventoryId, total, description.value, itemId.value, "")
     this.inventoryService.updateInventory(newInventory).subscribe(() => {
       this.getInventoryWithItemNames();
-      this.closeModal();
+      this.closeInventoryModal();
     })
   }
 
+  updateItem() {
+    const itemName = document.getElementById('input-item-name') as HTMLInputElement;
+    const newItem = new ItemDto(this.itemId, itemName.value);
+    this.inventoryService.updateItem(newItem).subscribe(() => {
+      this.getItemNames();
+      this.closeItemModal();
+    })
+  }
+  onUpdateTypeChange(value: string) {
+    this.updateType = value;
+  }
   ngOnDestroy() {
     if (this.inventorySubscription) {
       this.inventorySubscription.unsubscribe();
