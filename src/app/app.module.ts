@@ -3,7 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
+//Custom Components
+import { InventoryComponent } from "./pages/inventory/inventory.component";
+//Custom Services
+import { InventoryService } from "./pages/inventory/inventory.service";
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
@@ -27,9 +30,12 @@ import { ComponentsModule } from './components/components.module';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    InventoryComponent
   ],
-  providers: [],
+  providers: [
+    InventoryService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
