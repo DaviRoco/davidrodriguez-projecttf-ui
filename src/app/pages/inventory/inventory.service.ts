@@ -1,6 +1,6 @@
 import {environment} from "../../../environments/environment";
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {InventoryDto} from "../../dto/InventoryDto";
 import {ItemDto} from "../../dto/ItemDto";
@@ -38,5 +38,19 @@ export class InventoryService {
 
   updateItem(item: ItemDto): Observable<any> {
     return this.http.put<any>(this.apiUrlItem, item);
+  }
+
+  deleteItem(item: ItemDto): Observable<any> {
+    return this.http.delete(this.apiUrlItem, {
+      body: item ,
+      responseType: 'text'
+    });
+  }
+
+  deleteInventory(inventory: InventoryDto): Observable<any> {
+    return this.http.delete(this.apiUrlInventory, {
+      body: inventory,
+      responseType: 'text'
+    });
   }
 }

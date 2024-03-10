@@ -56,7 +56,7 @@
               </td>
               <td>
 <!--                TODO: DELETE Inventory-->
-                <a (click)="openDeleteModal(inventory.id)" class="btn btn-sm btn-danger">
+                <a (click)="openDeleteModal(inventory.id, 'inventory')" class="btn btn-sm btn-danger">
                   Eliminar
                 </a>
               </td>
@@ -88,6 +88,7 @@
               <th scope="col">ID</th>
               <th scope="col">Nombre</th>
               <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
             </thead>
             <tbody *ngFor="let item of items; index as i">
@@ -101,6 +102,11 @@
               <td>
                 <a (click)="openItemUpdateModal(item)" class="btn btn-sm btn-primary">
                   Editar
+                </a>
+              </td>
+              <td>
+                <a (click)="openDeleteModal(item.id, 'item')" class="btn btn-sm btn-danger">
+                  Eliminar
                 </a>
               </td>
             </tr>
@@ -172,7 +178,6 @@
 
 <div class="modal" [ngStyle]="{'display': showItemModal ? 'block' : 'none'}">
   <div class="modal-overlay">
-
   </div>
   <div class="card-body">
     <form>

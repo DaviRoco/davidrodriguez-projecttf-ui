@@ -3,6 +3,7 @@ import {InventoryService} from "./inventory.service";
 import {InventoryDto} from "../../dto/InventoryDto";
 import {ItemDto} from "../../dto/ItemDto";
 import {Subscription} from "rxjs";
+import {element} from "protractor";
 
 @Component({
   selector: 'app-tables',
@@ -20,7 +21,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   //Inventory update variables
   @ViewChild('totalSales') totalSales!: ElementRef<HTMLInputElement>;
   @ViewChild('totalRestock') totalRestock!: ElementRef<HTMLInputElement>;
-  updateType: string = 'restock';
+  updateType: string = 'venta';
   inventoryId: BigInt;
   selectedItemId: string;
   description: string;
@@ -30,6 +31,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   itemId: BigInt;
   //Delete procedures variables
   toBeDeletedId: BigInt;
+  toBeDeletedName: string;
   //Error variables
   salesError: boolean;
   salesErrorMessage: string;
@@ -100,8 +102,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.showItemModal = false;
   }
 
-  openDeleteModal(id: BigInt) {
+  openDeleteModal(id: BigInt, type: string) {
     this.toBeDeletedId = id;
+    this.toBeDeletedName = type;
     this.showDeleteModal = true;
   }
 
@@ -110,7 +113,21 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   deleteElement() {
-
+    if (this.toBeDeletedName == 'item') {
+      const itemDto = new ItemDto(this.toBeDeletedId, "");
+      this.inventoryService.deleteItem(itemDto).subscribe(() => {
+        this.getItemNames();
+        this.closeDeleteModal();
+      });
+      console.log('item being deleted');
+    } else if (this.toBeDeletedName == 'inventory') {
+      const inventoryDto = new InventoryDto(this.toBeDeletedId, 0, "", "", "")
+      this.inventoryService.deleteInventory(inventoryDto).subscribe(() => {
+        this.getInventoryWithItemNames();
+        this.closeDeleteModal();
+      });
+      console.log('inventory being deleted');
+    }
   }
 
   updateInventory() {
@@ -154,4 +171,5 @@ export class InventoryComponent implements OnInit, OnDestroy {
       this.inventorySubscription.unsubscribe();
     }
   }
+
 }
