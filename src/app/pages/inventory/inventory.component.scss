@@ -47,7 +47,13 @@
 }
 
 .truncate-text {
-  max-width: 150px; /* Adjust as needed */
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.truncate-text-item {
+  max-width: 80px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

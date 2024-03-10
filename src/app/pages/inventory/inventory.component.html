@@ -11,7 +11,7 @@
 <!-- Page content -->
 <div class="container-fluid mt--7">
   <div class="row">
-    <div class="col-xl-8 mb-5 mb-xl-0">
+    <div class="col-xl-7 mb-5 mb-xl-0">
       <div class="card shadow">
         <div class="card-header border-0">
           <div class="row align-items-center">
@@ -68,7 +68,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-4">
+    <div class="col-xl-5">
       <div class="card shadow">
         <div class="card-header border-0">
           <div class="row align-items-center">
@@ -126,7 +126,7 @@
   </div>
 </div>
 
-<div class="modal" [ngStyle]="{'display': showInventoryModal ? 'block' : 'none'}">
+<div class="modal" [ngStyle]="{'display': showUpdateInventoryModal ? 'block' : 'none'}">
   <div class="modal-overlay">
   </div>
   <div class="card-body">
@@ -174,7 +174,8 @@
         </div>
       </div>
     </form>
-    <div *ngIf="salesError" class="text-center text-danger mb-4">{{ salesErrorMessage }}</div>
+    <div [@fadeInOut] *ngIf="updateInventoryError" class="text-center text-danger mb-4">{{ updateInventoryErrorMessage }}</div>
+    <div [@fadeInOut] *ngIf="updateInventorySuccess" class="text-center text-success mb-4">Inventario actualizado exitosamente</div>
     <div class="col text-mg-left">
       <a (click)="closeInventoryUpdateModal()" class="btn btn-danger">Cerrar</a>
       <a (click)="updateInventory()" class="btn btn-success">Actualizar</a>
@@ -201,6 +202,8 @@
         </div>
       </div>
     </form>
+    <div [@fadeInOut] *ngIf="updateItemError" class="text-center text-danger mb-4">Nombre inválido</div>
+    <div [@fadeInOut] *ngIf="updateItemSuccess" class="text-center text-success mb-4">Item actualizado exitosamente</div>
     <div class="col text-mg-left">
       <a (click)="closeItemUpdateModal()" class="btn btn-danger">Cerrar</a>
       <a (click)="updateItem()" class="btn btn-success">Actualizar</a>
@@ -226,7 +229,8 @@
         </div>
       </div>
     </form>
-<!--    <div *ngIf="disableError" class="text-center text-danger mb-4">{{ deleteErrorMessage }}</div>-->
+    <div [@fadeInOut] *ngIf="createItemError" class="text-center text-danger mb-4">Nombre inválido</div>
+    <div [@fadeInOut] *ngIf="createItemSuccess" class="text-center text-success mb-4">Item creado exitosamente</div>
     <div class="col text-mg-left">
       <a (click)="closeCreateItemModal()" class="btn btn-dark">Cancelar</a>
       <a (click)="createItem()" class="btn btn-success">Crear</a>
@@ -253,7 +257,8 @@
         </div>
       </div>
     </form>
-    <div *ngIf="disableError" class="text-center text-danger mb-4">{{ deleteErrorMessage }}</div>
+    <div *ngIf="changeStateItemError" class="text-center text-danger mb-4">Palabra clave no coincide con lo escrito.</div>
+    <div [@fadeInOut] *ngIf="changeItemSuccess" class="text-center text-success mb-4">Cambio de estado exitoso.</div>
     <div class="col text-mg-left">
       <a (click)="closeItemDisableModal()" class="btn btn-dark">Cancelar</a>
       <a *ngIf="itemState === 'activo'" (click)="changeItemState()" class="btn btn-danger">Desactivar</a>
