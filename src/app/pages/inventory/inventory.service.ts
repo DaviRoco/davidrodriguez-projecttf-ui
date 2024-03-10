@@ -18,7 +18,7 @@ export class InventoryService {
     return this.http.get<any>(this.apiUrlInventory).pipe(
       map((inventories: any[]) => {
         return inventories.map(inventory =>
-          new InventoryDto(inventory.id, inventory.total, inventory.description, inventory.itemId, ""))
+          new InventoryDto(inventory.id, inventory.total, inventory.description, inventory.itemId, "", inventory.state))
       })
     );
   }
@@ -27,7 +27,7 @@ export class InventoryService {
     return this.http.get<any>(this.apiUrlItem).pipe(
       map((items: any[]) => {
         return items.map(item =>
-          new ItemDto(item.id, item.name))
+          new ItemDto(item.id, item.name, item.state))
       })
     );
   }
@@ -39,7 +39,9 @@ export class InventoryService {
   updateItem(item: ItemDto): Observable<any> {
     return this.http.put<any>(this.apiUrlItem, item);
   }
-
+  changeStateItem(item: ItemDto): Observable<any> {
+    return this.http.put<any>(this.apiUrlItem + '/state-change', item);
+  }
   deleteItem(item: ItemDto): Observable<any> {
     return this.http.delete(this.apiUrlItem, {
       body: item ,

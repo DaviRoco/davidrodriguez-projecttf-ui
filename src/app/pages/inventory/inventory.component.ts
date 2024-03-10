@@ -3,7 +3,6 @@ import {InventoryService} from "./inventory.service";
 import {InventoryDto} from "../../dto/InventoryDto";
 import {ItemDto} from "../../dto/ItemDto";
 import {Subscription} from "rxjs";
-import {element} from "protractor";
 
 @Component({
   selector: 'app-tables',
@@ -17,7 +16,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   // show modals for Inventory and Item updates
   showInventoryModal: boolean = false;
   showItemModal: boolean = false;
-  showDeleteModal: boolean = false;
+  showDisableModal: boolean = false;
   //Inventory update variables
   @ViewChild('totalSales') totalSales!: ElementRef<HTMLInputElement>;
   @ViewChild('totalRestock') totalRestock!: ElementRef<HTMLInputElement>;
@@ -26,12 +25,14 @@ export class InventoryComponent implements OnInit, OnDestroy {
   selectedItemId: string;
   description: string;
   currentTotal: number;
+  inventoryState: string;
   //Item update variables
   itemName: string;
   itemId: BigInt;
-  //Delete procedures variables
-  toBeDeletedId: BigInt;
-  toBeDeletedName: string;
+  itemState: string;
+  //Disable/Soft Delete procedure variables
+  warningInstruction: string
+  stateChangeItemId: BigInt;
   //Error variables
   salesError: boolean;
   salesErrorMessage: string;
@@ -40,6 +41,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   constructor(private inventoryService: InventoryService) { }
 
   ngOnInit() {
+    this.getInventoryWithItemNames();
     this.getItemNames();
   }
   getItemNames() {
@@ -73,6 +75,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   openInventoryUpdateModal(inventory: InventoryDto) {
     this.currentTotal = inventory.total;
     this.inventoryId = inventory.id;
+    this.inventoryState = inventory.state
     this.selectedItemId = inventory.itemId;
     this.description = inventory.description;
     const totalInputRestock = document.getElementById('input-total-restock') as HTMLInputElement;
@@ -86,7 +89,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
   }
 
-  closeInventoryModal() {
+  closeInventoryUpdateModal() {
     this.showInventoryModal = false;
     this.salesError = false;
     this.description = '';
@@ -98,36 +101,31 @@ export class InventoryComponent implements OnInit, OnDestroy {
     this.showItemModal = true;
   }
 
-  closeItemModal() {
+  closeItemUpdateModal() {
     this.showItemModal = false;
   }
 
-  openDeleteModal(id: BigInt, type: string) {
-    this.toBeDeletedId = id;
-    this.toBeDeletedName = type;
-    this.showDeleteModal = true;
-  }
-
-  closeDeleteModal() {
-    this.showDeleteModal = false;
-  }
-
-  deleteElement() {
-    if (this.toBeDeletedName == 'item') {
-      const itemDto = new ItemDto(this.toBeDeletedId, "");
-      this.inventoryService.deleteItem(itemDto).subscribe(() => {
-        this.getItemNames();
-        this.closeDeleteModal();
-      });
-      console.log('item being deleted');
-    } else if (this.toBeDeletedName == 'inventory') {
-      const inventoryDto = new InventoryDto(this.toBeDeletedId, 0, "", "", "")
-      this.inventoryService.deleteInventory(inventoryDto).subscribe(() => {
-        this.getInventoryWithItemNames();
-        this.closeDeleteModal();
-      });
-      console.log('inventory being deleted');
+  openItemDisableModal(item: ItemDto) {
+    this.stateChangeItemId = item.id;
+    this.itemState = item.state;
+    if (item.state === 'activo'){
+      this.warningInstruction = 'Estás a punto de cambiar el estado del siguiente elemento, esto desactivará inventarios a los que el producto esté ligado. Confirma tu decisión escribiendo "confirmar".'
+    } else {
+      this.warningInstruction = 'Estás a punto de cambiar el estado del siguiente elemento, esto activará el producto y se podrá utilizar nuevamente. Confirma tu decisión escribiendo "confirmar".'
     }
+    this.showDisableModal = true;
+  }
+
+  closeItemDisableModal() {
+    this.showDisableModal = false;
+  }
+
+  changeItemState() {
+      const itemDto = new ItemDto(this.stateChangeItemId, "", "");
+      this.inventoryService.changeStateItem(itemDto).subscribe(() => {
+        this.getItemNames();
+        this.closeItemDisableModal();
+      });
   }
 
   updateInventory() {
@@ -148,24 +146,25 @@ export class InventoryComponent implements OnInit, OnDestroy {
       totalInput = document.getElementById('input-total-restock') as HTMLInputElement;
       total = parseInt(totalInput.value);
     }
-    const newInventory = new InventoryDto(this.inventoryId, total, description.value, itemId.value, "")
+    const newInventory = new InventoryDto(this.inventoryId, total, description.value, itemId.value, "", this.inventoryState)
     this.inventoryService.updateInventory(newInventory).subscribe(() => {
       this.getInventoryWithItemNames();
-      this.closeInventoryModal();
+      this.closeInventoryUpdateModal();
     })
   }
 
   updateItem() {
     const itemName = document.getElementById('input-item-name') as HTMLInputElement;
-    const newItem = new ItemDto(this.itemId, itemName.value);
+    const newItem = new ItemDto(this.itemId, itemName.value, "");
     this.inventoryService.updateItem(newItem).subscribe(() => {
       this.getItemNames();
-      this.closeItemModal();
+      this.closeItemUpdateModal();
     })
   }
   onUpdateTypeChange(value: string) {
     this.updateType = value;
   }
+
   ngOnDestroy() {
     if (this.inventorySubscription) {
       this.inventorySubscription.unsubscribe();

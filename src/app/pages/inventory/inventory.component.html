@@ -18,10 +18,6 @@
             <div class="col">
               <h3 class="mb-0">Inventario</h3>
             </div>
-            <div class="col text-right">
-<!--              TODO: POST INVENTORY-->
-              <a class="btn btn-insert">Agregar Inventario</a>
-            </div>
           </div>
         </div>
         <div class="table-responsive">
@@ -32,7 +28,7 @@
               <th scope="col">Unidades</th>
               <th scope="col">Nombre de Item</th>
               <th scope="col">Descripción</th>
-              <th scope="col"></th>
+              <th scope="col">Estado</th>
               <th scope="col"></th>
             </tr>
             </thead>
@@ -49,15 +45,12 @@
               <td class="truncate-text">
                 <i class="fas fa-book-open text-primary mr-3"></i>{{ inventory.description }}
               </td>
+              <td class="truncate-text">
+                <i class="fas fa-book-open text-primary mr-3"></i>{{ inventory.state }}
+              </td>
               <td>
                 <a (click)="openInventoryUpdateModal(inventory)" class="btn btn-sm btn-primary">
                   Editar
-                </a>
-              </td>
-              <td>
-<!--                TODO: DELETE Inventory-->
-                <a (click)="openDeleteModal(inventory.id, 'inventory')" class="btn btn-sm btn-danger">
-                  Eliminar
                 </a>
               </td>
             </tr>
@@ -87,6 +80,7 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nombre</th>
+              <th scope="col">Estado</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
@@ -100,14 +94,20 @@
                 {{ item.name }}
               </td>
               <td>
+                {{ item.state }}
+              </td>
+              <td>
                 <a (click)="openItemUpdateModal(item)" class="btn btn-sm btn-primary">
                   Editar
                 </a>
               </td>
               <td>
-                <a (click)="openDeleteModal(item.id, 'item')" class="btn btn-sm btn-danger">
-                  Eliminar
-                </a>
+                <button *ngIf="item.state === 'activo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-danger">
+                  Desactivar
+                </button>
+                <button *ngIf="item.state === 'inactivo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-success">
+                  Activar
+                </button>
               </td>
             </tr>
             </tbody>
@@ -119,9 +119,9 @@
     </div>
   </div>
 </div>
+
 <div class="modal" [ngStyle]="{'display': showInventoryModal ? 'block' : 'none'}">
   <div class="modal-overlay">
-
   </div>
   <div class="card-body">
     <form>
@@ -170,7 +170,7 @@
     </form>
     <div *ngIf="salesError" class="text-center text-danger mb-4">{{ salesErrorMessage }}</div>
     <div class="col text-mg-left">
-      <a (click)="closeInventoryModal()" class="btn btn-danger">Cerrar</a>
+      <a (click)="closeInventoryUpdateModal()" class="btn btn-danger">Cerrar</a>
       <a (click)="updateInventory()" class="btn btn-success">Actualizar</a>
     </div>
   </div>
@@ -196,18 +196,18 @@
       </div>
     </form>
     <div class="col text-mg-left">
-      <a (click)="closeItemModal()" class="btn btn-danger">Cerrar</a>
+      <a (click)="closeItemUpdateModal()" class="btn btn-danger">Cerrar</a>
       <a (click)="updateItem()" class="btn btn-success">Actualizar</a>
     </div>
   </div>
 </div>
 
-<div class="modal" [ngStyle]="{'display': showDeleteModal ? 'block' : 'none'}">
+<div class="modal" [ngStyle]="{'display': showDisableModal ? 'block' : 'none'}">
   <div class="modal-overlay"></div>
   <div class="card-body">
     <form>
       <h3 class="heading-large text-muted mb-4">¡Advertencia!</h3>
-      <h3 class="text-danger">Estás a punto de eliminar el siguiente elemento. Por favor, ten cuidado y confirma tu decisión escribiendo "confirmar".</h3>
+      <h3 class="text-danger">{{warningInstruction}}</h3>
       <div class="pl-lg-4">
         <div class="row">
           <div class="col-lg-12">
@@ -223,8 +223,9 @@
     </form>
     <div *ngIf="deleteError" class="text-center text-danger mb-4">{{ deleteErrorMessage }}</div>
     <div class="col text-mg-left">
-      <a (click)="closeDeleteModal()" class="btn btn-dark">Cancelar</a>
-      <a (click)="deleteElement()" class="btn btn-danger">Eliminar</a>
+      <a (click)="closeItemDisableModal()" class="btn btn-dark">Cancelar</a>
+      <a *ngIf="itemState === 'activo'" (click)="changeItemState()" class="btn btn-danger">Desactivar</a>
+      <a *ngIf="itemState === 'inactivo'" (click)="changeItemState()" class="btn btn-success">Activar</a>
     </div>
   </div>
 </div>
