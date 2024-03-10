@@ -30,30 +30,29 @@
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Unidades</th>
-              <th scope="col">Nombre de Item</th>
-              <th scope="col">Descripción</th>
-              <th scope="col">Estado</th>
+            <tr class="text-center">
+              <th scope="col"><i class="fas fa-id-badge text-primary mr-3"></i>ID</th>
+              <th scope="col"><i class="fas fa-cubes text-primary mr-3"></i>Unidades</th>
+              <th scope="col"><i class="fas fa-tags text-primary mr-3"></i> Nombre de Item </th>
+              <th scope="col"><i class="fas fa-file-alt text-primary mr-3"></i> Descripción</th>
+              <th scope="col"><i class="fas fa-toggle-on text-primary mr-3"></i> Estado</th>
               <th scope="col"></th>
             </tr>
             </thead>
-            <tbody *ngFor="let inventory of inventories; index as i">
+            <tbody *ngFor="let inventory of inventories; index as i" class="text-center">
             <tr>
               <td>{{ inventory.id }}</td>
               <td>
-                <i class="fas fa-shopping-basket text-success mr-3"></i>{{ inventory.total }}
+                {{ inventory.total }}
               </td>
               <td>
-
-                <i class="fas fa-pencil-ruler text-primary mr-3"></i>{{ inventory.itemName }}
+                {{ inventory.itemName }}
               </td>
               <td class="truncate-text">
-                <i class="fas fa-book-open text-primary mr-3"></i>{{ inventory.description }}
+                {{ inventory.description }}
               </td>
               <td class="truncate-text">
-                <i class="fas fa-book-open text-primary mr-3"></i>{{ inventory.state }}
+                {{ inventory.state }}
               </td>
               <td>
                 <a (click)="openInventoryUpdateModal(inventory)" class="btn btn-sm btn-primary">
@@ -84,14 +83,14 @@
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Estado</th>
+              <th scope="col"><i class="fas fa-id-badge text-primary mr-3"></i>ID</th>
+              <th scope="col"><i class="fas fa-user text-primary mr-3"></i>Nombre</th>
+              <th scope="col"><i class="fas fa-toggle-on text-primary mr-3"></i> Estado</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
             </thead>
-            <tbody *ngFor="let item of items; index as i">
+            <tbody *ngFor="let item of items; index as i" class="text-center">
             <tr>
               <td>
                 {{ item.id }}
