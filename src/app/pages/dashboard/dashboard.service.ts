@@ -4,12 +4,14 @@ import {map, Observable} from "rxjs";
 import {InventoryDto} from "../../dto/InventoryDto";
 import {ItemDto} from "../../dto/ItemDto";
 import {Injectable} from "@angular/core";
+import {InventoryLogDto} from "../../dto/InventoryLogDto";
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
   apiUrlInventory = `${environment.rootUrl}/inventory`;
   apiUrlItem = `${environment.rootUrl}/item`;
+  apirUrlInventoryLog = `${environment.rootUrl}/inventory-log`;
 
   constructor(private http: HttpClient) {
   }
@@ -30,5 +32,14 @@ export class DashboardService {
           new ItemDto(item.id, item.name, item.state))
       })
     );
+  }
+
+  getInventoryLogs(): Observable<any> {
+    return this.http.get<any>(this.apirUrlInventoryLog).pipe(
+      map((logs: any[]) => {
+        return logs.map(log =>
+        new InventoryLogDto(log.id, log.transaction, log.amount, log.itemId))
+      })
+    )
   }
 }

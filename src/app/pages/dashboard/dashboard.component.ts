@@ -3,6 +3,7 @@ import {InventoryDto} from "../../dto/InventoryDto";
 import {ItemDto} from "../../dto/ItemDto";
 import {Subscription} from "rxjs";
 import {DashboardService} from "./dashboard.service";
+import {InventoryLogDto} from "../../dto/InventoryLogDto";
 
 
 @Component({
@@ -13,6 +14,7 @@ import {DashboardService} from "./dashboard.service";
 export class DashboardComponent implements OnInit, OnDestroy {
   inventories: InventoryDto[] = [];
   items: ItemDto[] = [];
+  logs: InventoryLogDto[] = [];
   dashboardSubscription: Subscription;
   stateType: string = 'todo';
   constructor(private dashboardService: DashboardService) {
@@ -20,6 +22,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getInventoryWithItemNames();
     this.getItemNames();
+    this.getInventoryLogs();
   }
   onUpdateStateFilterChange(value: string) {
     this.stateType = value;
@@ -54,6 +57,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  getInventoryLogs() {
+    this.dashboardSubscription = this.dashboardService.getInventoryLogs().subscribe({
+      next: (response) => {
+        this.logs = response;
+      }
+    })
+  }
   ngOnDestroy(): void {
     if (this.dashboardSubscription) {
       this.dashboardSubscription.unsubscribe();

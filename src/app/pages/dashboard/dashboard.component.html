@@ -10,17 +10,17 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">Actividad</h5>
-                  <span class="h2 font-weight-bold mb-0">100 Empleados</span>
+                  <span class="h2 font-weight-bold mb-0">{{ inventories.length }} Inventarios</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                    <i class="fas fa-building"></i>
+                    <i class="fas fa-search"></i>
                   </div>
                 </div>
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-success mr-2"><i class="fas fa-user"></i> 12</span>
-                <span class="text-nowrap">Empleados en el sistema</span>
+                <span class="text-success mr-2"><i class="fas fa-boxes"></i> {{ items.length }}</span>
+                <span class="text-nowrap">Items registrados en el sistema</span>
               </p>
             </div>
           </div>
@@ -30,8 +30,8 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Rol actual</h5>
-                  <span class="h2 font-weight-bold mb-0">Administrador</span>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Empleados</h5>
+                  <span class="h2 font-weight-bold mb-0">TODO Empleados</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -40,8 +40,8 @@
                 </div>
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-success mr-2"><i class="fas fa-pen"></i> Permisos</span>
-                <span class="text-nowrap">Escritura y lectura de inventario</span>
+                <span class="text-danger mr-2"><i class="fas fa-pen"></i> Inactivos</span>
+                <span class="text-nowrap">TODO inactivos</span>
               </p>
             </div>
           </div>
@@ -77,7 +77,7 @@
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
-            <tr>
+            <tr class="text-center">
               <th scope="col"><i class="fas fa-id-badge text-primary mr-3"></i>ID</th>
               <th scope="col"><i class="fas fa-cubes text-primary mr-3"></i>Unidades</th>
               <th scope="col"><i class="fas fa-tags text-primary mr-3"></i> Nombre de Item </th>
@@ -87,11 +87,11 @@
             </thead>
             <tbody *ngFor="let inventory of inventories.slice(0, 5)" class="text-center">
             <tr>
-              <td>{{ inventory.id }}</td>
-              <td>
+              <td class="truncate-text">{{ inventory.id }}</td>
+              <td class="truncate-text">
                 {{ inventory.total }}
               </td>
-              <td>
+              <td class="truncate-text">
                 {{ inventory.itemName }}
               </td>
               <td class="truncate-text">
@@ -103,6 +103,95 @@
             </tr>
             </tbody>
           </table>
+        </div>
+        <div class="card-footer py-4">
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Items </h3>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col"><i class="fas fa-id-badge text-primary mr-3"></i>ID</th>
+              <th scope="col"><i class="fas fa-user text-primary mr-3"></i>Nombre</th>
+              <th scope="col"><i class="fas fa-toggle-on text-primary mr-3"></i> Estado</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let item of items.slice(0, 5)" class="text-center">
+            <tr>
+              <td>
+                {{ item.id }}
+              </td>
+              <td class="truncate-text">
+                {{ item.name }}
+              </td>
+              <td>
+                {{ item.state }}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-4">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-xl-8 mb-5 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Historial de cambios</h3>
+            </div>
+            <div class="col text-right">
+              <a [routerLink]="['/inventory-log']" class="btn btn-sm btn-primary">Ver Historial Completo</a>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <!-- Projects table -->
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col" class="text-center">ID</th>
+              <th scope="col" class="text-left">Descripción</th>
+              <th scope="col" class="text-center">Cantidad</th>
+              <th scope="col" class="text-center">Item</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let log of logs.slice(0, 5)">
+            <tr>
+              <td class="text-center">
+                {{ log.id }}
+              </td>
+              <td class="text-left truncate-text">
+                {{ log.transaction }}
+              </td>
+              <td class="text-center">
+                <span *ngIf="log.amount > 0">
+                  +
+                </span>
+                {{ log.amount }}
+              </td>
+              <td class="text-center">
+                Descripción
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-4">
         </div>
       </div>
     </div>
@@ -138,55 +227,14 @@
               </td>
               <td>
                 Rol
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <span class="mr-2">60%</span>-->
-<!--                  <div>-->
-<!--                    <div class="progress">-->
-<!--                      <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-xl-12 mb-5 mb-xl-0">
-      <div class="card shadow">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Historial de cambios</h3>
-            </div>
-            <div class="col text-right">
-              <a [routerLink]="['/inventory-log']" class="btn btn-sm btn-primary">Ver Historial Completo</a>
-            </div>
-          </div>
-        </div>
-        <div class="table-responsive">
-          <!-- Projects table -->
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-            <tr>
-              <th scope="col">Item</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Descripción</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <th scope="row">
-                Item
-              </th>
-              <td>
-                Usuario
-              </td>
-              <td>
-                Descripción
+                <!--                <div class="d-flex align-items-center">-->
+                <!--                  <span class="mr-2">60%</span>-->
+                <!--                  <div>-->
+                <!--                    <div class="progress">-->
+                <!--                      <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
               </td>
             </tr>
             </tbody>
