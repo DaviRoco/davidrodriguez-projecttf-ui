@@ -14,8 +14,8 @@ export class InventoryService {
   constructor(private http: HttpClient) {
   }
 
-  getInventories(): Observable<any> {
-    return this.http.get<any>(this.apiUrlInventory).pipe(
+  getInventories(state: string): Observable<any> {
+    return this.http.get<any>(this.apiUrlInventory + '?state=' + state).pipe(
       map((inventories: any[]) => {
         return inventories.map(inventory =>
           new InventoryDto(inventory.id, inventory.total, inventory.description, inventory.itemId, "", inventory.state))
@@ -42,17 +42,7 @@ export class InventoryService {
   changeStateItem(item: ItemDto): Observable<any> {
     return this.http.put<any>(this.apiUrlItem + '/state-change', item);
   }
-  deleteItem(item: ItemDto): Observable<any> {
-    return this.http.delete(this.apiUrlItem, {
-      body: item ,
-      responseType: 'text'
-    });
-  }
-
-  deleteInventory(inventory: InventoryDto): Observable<any> {
-    return this.http.delete(this.apiUrlInventory, {
-      body: inventory,
-      responseType: 'text'
-    });
+  createItem(item: ItemDto): Observable<any> {
+    return this.http.post<any>(this.apiUrlItem, item);
   }
 }

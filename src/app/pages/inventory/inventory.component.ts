@@ -22,6 +22,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   @ViewChild('totalSales') totalSales!: ElementRef<HTMLInputElement>;
   @ViewChild('totalRestock') totalRestock!: ElementRef<HTMLInputElement>;
   updateType: string = 'venta';
+  stateType: string = 'todo';
   inventoryId: BigInt;
   selectedItemId: string;
   description: string;
@@ -58,7 +59,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   getInventoryWithItemNames() {
-    this.inventorySubscription = this.inventoryService.getInventories().subscribe({
+    this.inventorySubscription = this.inventoryService.getInventories(this.stateType).subscribe({
       next: (response) => {
         response.forEach((inventory: { itemId: BigInt; itemName: string; }) => {
           let itemFound = this.items.find(item => item.id === inventory.itemId);
@@ -172,6 +173,18 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
   onUpdateTypeChange(value: string) {
     this.updateType = value;
+  }
+  onUpdateStateFilterChange(value: string) {
+    this.stateType = value;
+    this.getInventoryWithItemNames();
+  }
+  createItem() {
+    const itemName = document.getElementById('input-item-create-name') as HTMLInputElement;
+    const newItem = new ItemDto(null, itemName.value, null);
+    this.inventoryService.createItem(newItem).subscribe(() => {
+      this.getItemNames();
+      this.closeCreateItemModal();
+    })
   }
 
   ngOnDestroy() {
