@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       next: (response) => {
         this.items = response;
         this.getInventoryWithItemNames();
+        this.getInventoryLogs();
       },
       error: (error) => {
         console.error('Error fetching data:', error);
@@ -60,7 +61,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getInventoryLogs() {
     this.dashboardSubscription = this.dashboardService.getInventoryLogs().subscribe({
       next: (response) => {
+        response.forEach((log: { itemId: BigInt; itemName: string; }) => {
+          let itemFound = this.items.find(item => item.id === log.itemId);
+          if (itemFound) {
+            log.itemName = itemFound.name;
+          }
+        })
         this.logs = response;
+      },
+      error: (error) => {
+        console.error('Error fetching data:', error);
       }
     })
   }

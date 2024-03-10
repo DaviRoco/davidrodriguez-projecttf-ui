@@ -16,6 +16,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import {DashboardService} from "./pages/dashboard/dashboard.service";
+import {InventoryLogService} from "./pages/inventory-log/inventory-log.service";
+import {DashboardComponent} from "./pages/dashboard/dashboard.component";
+import {InventoryLogComponent} from "./pages/inventory-log/inventory-log.component";
 
 
 @NgModule({
@@ -31,12 +34,7 @@ import {DashboardService} from "./pages/dashboard/dashboard.service";
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent,
-    InventoryComponent
-  ],
-  providers: [
-    InventoryService,
-    DashboardService
+    AuthLayoutComponent
   ],
   bootstrap: [AppComponent]
 })
