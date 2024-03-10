@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import {DashboardService} from "./pages/dashboard/dashboard.service";
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ComponentsModule } from './components/components.module';
     InventoryComponent
   ],
   providers: [
-    InventoryService
+    InventoryService,
+    DashboardService
   ],
   bootstrap: [AppComponent]
 })

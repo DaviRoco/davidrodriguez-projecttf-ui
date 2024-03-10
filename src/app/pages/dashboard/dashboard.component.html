@@ -59,42 +59,46 @@
       <div class="card shadow">
         <div class="card-header border-0">
           <div class="row align-items-center">
-            <div class="col">
+            <div class="col-md-6 col-lg-4">
               <h3 class="mb-0">Resumen de Inventario</h3>
             </div>
-            <div class="col text-right">
+            <div class="col-md-3 col-lg-2 mt-3 mt-md-0">
+              <select id="input-state" class="form-control" (change)="onUpdateStateFilterChange($event.target.value)">
+                <option value="all" class="text-left">Todo</option>
+                <option value="activo" class="text-left">Activo</option>
+                <option value="inactivo" class="text-left">Inactivo</option>
+              </select>
+            </div>
+            <div class="col-md-3 col-lg-6 mt-3 mt-md-0 text-right">
               <a [routerLink]="['/inventory']" class="btn btn-sm btn-primary">Ver Inventario Completo</a>
             </div>
           </div>
         </div>
         <div class="table-responsive">
-          <!-- Projects table -->
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
             <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Fecha de Expiración</th>
-              <th scope="col">Precio</th>
-              <th scope="col">Unidades</th>
-              <th scope="col">Total</th>
+              <th scope="col"><i class="fas fa-id-badge text-primary mr-3"></i>ID</th>
+              <th scope="col"><i class="fas fa-cubes text-primary mr-3"></i>Unidades</th>
+              <th scope="col"><i class="fas fa-tags text-primary mr-3"></i> Nombre de Item </th>
+              <th scope="col"><i class="fas fa-file-alt text-primary mr-3"></i> Descripción</th>
+              <th scope="col"><i class="fas fa-toggle-on text-primary mr-3"></i> Estado</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody *ngFor="let inventory of inventories.slice(0, 5)" class="text-center">
             <tr>
-              <th scope="row">
-                nombre
-              </th>
+              <td>{{ inventory.id }}</td>
               <td>
-                Fecha de Expiración
+                {{ inventory.total }}
               </td>
               <td>
-                Precio
+                {{ inventory.itemName }}
               </td>
-              <td>
-                <i class="fas fa-arrow-up text-success mr-3"></i> Unidades
+              <td class="truncate-text">
+                {{ inventory.description }}
               </td>
-              <td>
-                Total
+              <td class="truncate-text">
+                {{ inventory.state }}
               </td>
             </tr>
             </tbody>
