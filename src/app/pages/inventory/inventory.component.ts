@@ -15,8 +15,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
   inventorySubscription: Subscription;
   // show modals for Inventory and Item updates
   showInventoryModal: boolean = false;
-  showItemModal: boolean = false;
-  showDisableModal: boolean = false;
+  showUpdateItemModal: boolean = false;
+  showDisableItemModal: boolean = false;
+  showCreateItemModal: boolean = false;
   //Inventory update variables
   @ViewChild('totalSales') totalSales!: ElementRef<HTMLInputElement>;
   @ViewChild('totalRestock') totalRestock!: ElementRef<HTMLInputElement>;
@@ -36,7 +37,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   //Error variables
   salesError: boolean;
   salesErrorMessage: string;
-  deleteError: boolean;
+  disableError: boolean;
   deleteErrorMessage: string;
   constructor(private inventoryService: InventoryService) { }
 
@@ -98,11 +99,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
   openItemUpdateModal(item: ItemDto) {
     this.itemId = item.id;
     this.itemName = item.name;
-    this.showItemModal = true;
+    this.showUpdateItemModal = true;
   }
 
   closeItemUpdateModal() {
-    this.showItemModal = false;
+    this.showUpdateItemModal = false;
   }
 
   openItemDisableModal(item: ItemDto) {
@@ -113,11 +114,19 @@ export class InventoryComponent implements OnInit, OnDestroy {
     } else {
       this.warningInstruction = 'Estás a punto de cambiar el estado del siguiente elemento, esto activará el producto y se podrá utilizar nuevamente. Confirma tu decisión escribiendo "confirmar".'
     }
-    this.showDisableModal = true;
+    this.showDisableItemModal = true;
   }
 
   closeItemDisableModal() {
-    this.showDisableModal = false;
+    this.showDisableItemModal = false;
+  }
+
+  openCreateItemModal() {
+    this.showCreateItemModal = true;
+  }
+
+  closeCreateItemModal() {
+    this.showCreateItemModal = false;
   }
 
   changeItemState() {
