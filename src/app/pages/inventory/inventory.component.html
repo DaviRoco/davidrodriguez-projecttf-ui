@@ -21,8 +21,8 @@
             <div class="col-md-2 dropdown-menu-arrow">
               <select id="input-state" class="form-control" (change)="onUpdateStateFilterChange($event.target.value)">
                 <option value="all" class="text-left">Todo</option>
-                <option value="activo" class="text-left">Activo</option>
-                <option value="inactivo" class="text-left">Inactivo</option>
+                <option value="Activo" class="text-left">Activo</option>
+                <option value="Inactivo" class="text-left">Inactivo</option>
               </select>
             </div>
           </div>
@@ -107,10 +107,10 @@
                 </a>
               </td>
               <td>
-                <button *ngIf="item.state === 'activo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-danger">
+                <button *ngIf="item.state === 'Activo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-danger">
                   Desactivar
                 </button>
-                <button *ngIf="item.state === 'inactivo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-success">
+                <button *ngIf="item.state === 'Inactivo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-success">
                   Activar
                 </button>
               </td>
@@ -260,8 +260,8 @@
     <div [@fadeInOut] *ngIf="changeItemSuccess" class="text-center text-success mb-4">Cambio de estado exitoso.</div>
     <div class="col text-mg-left">
       <a (click)="closeItemDisableModal()" class="btn btn-dark">Cancelar</a>
-      <a *ngIf="itemState === 'activo'" (click)="changeItemState()" class="btn btn-danger">Desactivar</a>
-      <a *ngIf="itemState === 'inactivo'" (click)="changeItemState()" class="btn btn-success">Activar</a>
+      <a *ngIf="itemState === 'Activo'" (click)="changeItemState()" class="btn btn-danger">Desactivar</a>
+      <a *ngIf="itemState === 'Inactivo'" (click)="changeItemState()" class="btn btn-success">Activar</a>
     </div>
   </div>
 </div>

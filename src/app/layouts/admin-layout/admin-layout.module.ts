@@ -17,7 +17,8 @@ import {InventoryLogComponent} from "../../pages/inventory-log/inventory-log.com
 import {InventoryService} from "../../pages/inventory/inventory.service";
 import {DashboardService} from "../../pages/dashboard/dashboard.service";
 import {InventoryLogService} from "../../pages/inventory-log/inventory-log.service";
-// import { ToastrModule } from 'ngx-toastr';
+import {UsersService} from "../../pages/users/users.service";
+import {UsersComponent} from "../../pages/users/users.component";
 
 @NgModule({
   imports: [
@@ -35,12 +36,14 @@ import {InventoryLogService} from "../../pages/inventory-log/inventory-log.servi
     MapsComponent,
     InventoryComponent,
     DashboardComponent,
-    InventoryLogComponent
+    InventoryLogComponent,
+    UsersComponent
   ],
   providers: [
     InventoryService,
     DashboardService,
-    InventoryLogService
+    InventoryLogService,
+    UsersService
   ],
 })
 

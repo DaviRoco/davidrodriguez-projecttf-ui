@@ -103,7 +103,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   openItemDisableModal(item: ItemDto) {
     this.stateChangeItemId = item.id;
     this.itemState = item.state;
-    if (item.state === 'activo'){
+    if (item.state === 'Activo'){
       this.warningInstruction = 'Estás a punto de cambiar el estado del siguiente elemento, esto desactivará inventarios a los que el producto esté ligado. Confirma tu decisión escribiendo "confirmar".'
     } else {
       this.warningInstruction = 'Estás a punto de cambiar el estado del siguiente elemento, esto activará el producto y se podrá utilizar nuevamente. Confirma tu decisión escribiendo "confirmar".'
