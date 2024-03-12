@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthenticationService} from "../../authentication/authentication.service";
 
 @Component({
   selector: 'app-admin-layout',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminLayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthenticationService) {}
 
+  onUserActivity(): void {
+    this.authService.updateLastActivityTime();
+  }
   ngOnInit() {
   }
 

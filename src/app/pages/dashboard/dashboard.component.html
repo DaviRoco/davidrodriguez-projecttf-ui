@@ -43,7 +43,7 @@
                 <a [routerLink]="['/users']">
                   <span class="text-danger mr-2"><i class="fas fa-pen"></i> Inactivos</span>
                 </a>
-                <span class="text-nowrap">{{ inactiveUsers.length }} usuarios inactivos</span>
+                <span class="text-nowrap">{{ inactiveUsers.length }} usuarios</span>
               </p>
             </div>
           </div>
@@ -116,6 +116,9 @@
           <div class="row align-items-center">
             <div class="col">
               <h3 class="mb-0">Items </h3>
+            </div>
+            <div class="col-md-3 col-lg-6 mt-3 mt-md-0 text-right">
+              <a [routerLink]="['/inventory']" class="btn btn-sm btn-primary">Ver más Items</a>
             </div>
           </div>
         </div>

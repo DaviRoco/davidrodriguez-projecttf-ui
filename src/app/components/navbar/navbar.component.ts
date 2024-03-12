@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
+import {AuthenticationService} from "../../authentication/authentication.service";
 
 @Component({
   selector: 'app-navbar',
@@ -9,10 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  public focus;
+  public focus: any;
   public listTitles: any[];
   public location: Location;
-  constructor(location: Location,  private element: ElementRef, private router: Router) {
+  constructor(location: Location,  private element: ElementRef, private router: Router, private authenticationService: AuthenticationService) {
     this.location = location;
   }
 
@@ -20,12 +21,12 @@ export class NavbarComponent implements OnInit {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
   }
   getTitle(){
-    var titlee = this.location.prepareExternalUrl(this.location.path());
+    let titlee = this.location.prepareExternalUrl(this.location.path());
     if(titlee.charAt(0) === '#'){
         titlee = titlee.slice( 1 );
     }
 
-    for(var item = 0; item < this.listTitles.length; item++){
+    for(let item = 0; item < this.listTitles.length; item++){
         if(this.listTitles[item].path === titlee){
             return this.listTitles[item].title;
         }
@@ -33,4 +34,7 @@ export class NavbarComponent implements OnInit {
     return 'Dashboard';
   }
 
+  logout() {
+    this.authenticationService.logout();
+  }
 }

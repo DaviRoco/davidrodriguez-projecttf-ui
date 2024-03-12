@@ -6,12 +6,14 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import {UsersComponent} from "../../pages/users/users.component";
 import {InventoryComponent} from "../../pages/inventory/inventory.component";
 import {InventoryLogComponent} from "../../pages/inventory-log/inventory-log.component";
+import {AuthGuard} from "../../authentication/authentication.guard";
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'users',      component: UsersComponent },
-    { path: 'inventory',      component: InventoryComponent },
-    { path: 'inventory-log',      component: InventoryLogComponent },
-    { path: 'icons',          component: IconsComponent }
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+    { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
+    { path: 'inventory', component: InventoryComponent, canActivate: [AuthGuard] },
+    { path: 'inventory-log', component: InventoryLogComponent, canActivate: [AuthGuard] },
+    { path: 'icons', component: IconsComponent, canActivate: [AuthGuard] }
 ];
