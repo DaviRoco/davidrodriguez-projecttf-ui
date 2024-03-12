@@ -8,7 +8,7 @@
   height: 100%;
   z-index: 9999;
   overflow: auto;
-  animation: fadeIn 0.3s ease forwards; /* Fade-in animation */
+  animation: fadeIn 0.3s ease forwards;
 }
 
 
@@ -59,14 +59,14 @@
   text-overflow: ellipsis;
 }
 .btn-insert {
-  background-color: #0ea5c3; /* Set the background color */
-  border-color: #0ea5c3; /* Set the border color */
-  color: white; /* Set the text color */
+  background-color: #0ea5c3;
+  border-color: #0ea5c3;
+  color: white;
 }
 
 .btn-insert:hover {
-  background-color: #0c8aa2; /* Change color on hover */
-  border-color: #0c8aa2; /* Change border color on hover */
+  background-color: #0c8aa2;
+  border-color: #0c8aa2;
 }
 @keyframes slideIn {
   from {

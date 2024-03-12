@@ -39,7 +39,7 @@ export class InventoryService {
   updateItem(item: ItemDto): Observable<any> {
     return this.http.put<any>(this.apiUrlItem, item);
   }
-  changeStateItem(item: ItemDto): Observable<any> {
+  changeItemState(item: ItemDto): Observable<any> {
     return this.http.put<any>(this.apiUrlItem + '/state-change', item);
   }
   createItem(item: ItemDto): Observable<any> {

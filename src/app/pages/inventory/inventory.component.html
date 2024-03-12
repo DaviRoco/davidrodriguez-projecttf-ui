@@ -107,10 +107,10 @@
                 </a>
               </td>
               <td>
-                <button *ngIf="item.state === 'Activo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-danger">
+                <button *ngIf="item.state === 'Activo'" (click)="openItemChangeStateModal(item)" class="btn btn-sm btn-danger">
                   Desactivar
                 </button>
-                <button *ngIf="item.state === 'Inactivo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-success">
+                <button *ngIf="item.state === 'Inactivo'" (click)="openItemChangeStateModal(item)" class="btn btn-sm btn-success">
                   Activar
                 </button>
               </td>
@@ -237,7 +237,7 @@
   </div>
 </div>
 
-<div class="modal" [ngStyle]="{'display': showDisableItemModal ? 'block' : 'none'}">
+<div class="modal" [ngStyle]="{'display': showChangeStateItemModal ? 'block' : 'none'}">
   <div class="modal-overlay"></div>
   <div class="card-body">
     <form>
@@ -248,7 +248,7 @@
           <div class="col-lg-12">
             <div class="form-group">
               <div class="form-group">
-                <label class="form-control-label" for="input-item-name">Continuar?</label>
+                <label class="form-control-label" for="input-confirm-delete">Continuar?</label>
                 <input type="text" id="input-confirm-delete" class="form-control form-control-alternative" placeholder="confirmar" autocomplete="off">
               </div>
             </div>
@@ -259,7 +259,7 @@
     <div *ngIf="changeStateItemError" class="text-center text-danger mb-4">Palabra clave no coincide con lo escrito.</div>
     <div [@fadeInOut] *ngIf="changeItemSuccess" class="text-center text-success mb-4">Cambio de estado exitoso.</div>
     <div class="col text-mg-left">
-      <a (click)="closeItemDisableModal()" class="btn btn-dark">Cancelar</a>
+      <a (click)="closeItemChangeStateModal()" class="btn btn-dark">Cancelar</a>
       <a *ngIf="itemState === 'Activo'" (click)="changeItemState()" class="btn btn-danger">Desactivar</a>
       <a *ngIf="itemState === 'Inactivo'" (click)="changeItemState()" class="btn btn-success">Activar</a>
     </div>

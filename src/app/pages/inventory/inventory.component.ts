@@ -29,7 +29,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
   // show modals for Inventory and Item updates
   showUpdateInventoryModal: boolean = false;
   showUpdateItemModal: boolean = false;
-  showDisableItemModal: boolean = false;
+  showChangeStateItemModal: boolean = false;
   showCreateItemModal: boolean = false;
   //Inventory update variables
   @ViewChild('totalSales') totalSales!: ElementRef<HTMLInputElement>;
@@ -100,7 +100,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     });
   }
 
-  openItemDisableModal(item: ItemDto) {
+  openItemChangeStateModal(item: ItemDto) {
     this.stateChangeItemId = item.id;
     this.itemState = item.state;
     if (item.state === 'Activo'){
@@ -108,15 +108,15 @@ export class InventoryComponent implements OnInit, OnDestroy {
     } else {
       this.warningInstruction = 'Estás a punto de cambiar el estado del siguiente elemento, esto activará el producto y se podrá utilizar nuevamente. Confirma tu decisión escribiendo "confirmar".'
     }
-    this.showDisableItemModal = true;
+    this.showChangeStateItemModal = true;
   }
 
-  closeItemDisableModal() {
+  closeItemChangeStateModal() {
     const confirmDelete = document.getElementById('input-confirm-delete') as HTMLInputElement;
     if (confirmDelete.value != "") {
       confirmDelete.value = "";
     }
-    this.showDisableItemModal = false;
+    this.showChangeStateItemModal = false;
   }
   changeItemState() {
     const confirmDelete = document.getElementById('input-confirm-delete') as HTMLInputElement;
@@ -126,9 +126,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.changeItemSuccess = false;
       }, 2000);
-      this.inventoryService.changeStateItem(itemDto).subscribe(() => {
+      this.inventoryService.changeItemState(itemDto).subscribe(() => {
         this.getItemNames();
-        this.closeItemDisableModal();
+        this.closeItemChangeStateModal();
       });
     } else {
       this.changeStateItemError = true;

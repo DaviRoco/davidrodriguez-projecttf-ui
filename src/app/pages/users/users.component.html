@@ -11,7 +11,8 @@
 <!-- Page content -->
 <div class="container-fluid mt--7">
   <div class="row">
-    <div class="col">
+    <div class="col-xl-1"></div>
+    <div class="col-xl-10 mb-5 mb-xl-0">
       <div class="card shadow">
         <div class="card-header border-0">
           <h3 class="mb-0">Usuarios</h3>
@@ -54,12 +55,12 @@
                 {{ user.state }}
               </td>
               <td>
-<!--                <button *ngIf="user.state === 'Activo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-danger">-->
-<!--                  Desactivar-->
-<!--                </button>-->
-<!--                <button *ngIf="user.state === 'Inactivo'" (click)="openItemDisableModal(item)" class="btn btn-sm btn-success">-->
-<!--                  Activar-->
-<!--                </button>-->
+                <button *ngIf="user.state === 'Activo'" (click)="openUserDisableModal(user)" class="btn btn-sm btn-danger">
+                  Desactivar
+                </button>
+                <button *ngIf="user.state === 'Inactivo'" (click)="openUserDisableModal(user)" class="btn btn-sm btn-success">
+                  Activar
+                </button>
               </td>
             </tr>
             </tbody>
@@ -68,6 +69,34 @@
         <div class="card-footer py-4">
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div class="modal" [ngStyle]="{'display': showChangeStateUserModal ? 'block' : 'none'}">
+  <div class="modal-overlay"></div>
+  <div class="card-body">
+    <form>
+      <h3 class="heading-large text-muted mb-4">¡Advertencia!</h3>
+      <h3 class="text-danger">Estás a punto de cambiar el estado del siguiente usuario. Confirma tu decisión escribiendo "confirmar".</h3>
+      <div class="pl-lg-4">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <div class="form-group">
+                <label class="form-control-label" for="input-confirm-delete">Continuar?</label>
+                <input type="text" id="input-confirm-delete" class="form-control form-control-alternative" placeholder="confirmar" autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="changeStateUserError" class="text-center text-danger mb-4">Palabra clave no coincide con lo escrito.</div>
+    <div [@fadeInOut] *ngIf="changeUserSuccess" class="text-center text-success mb-4">Cambio de estado exitoso.</div>
+    <div class="col text-mg-left">
+      <a (click)="closeItemChangeStateModal()" class="btn btn-dark">Cancelar</a>
+      <a *ngIf="userState === 'Activo'" (click)="changeUserState()" class="btn btn-danger">Desactivar</a>
+      <a *ngIf="userState === 'Inactivo'" (click)="changeUserState()" class="btn btn-success">Activar</a>
     </div>
   </div>
 </div>

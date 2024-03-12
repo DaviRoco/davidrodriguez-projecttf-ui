@@ -22,4 +22,8 @@ export class UsersService {
       })
     )
   }
+
+  changeUserState(user: UserDto): Observable<any> {
+    return this.http.put<any>(this.apiUrlUser + '/state-change', user);
+  }
 }

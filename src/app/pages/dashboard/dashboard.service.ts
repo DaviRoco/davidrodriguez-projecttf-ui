@@ -5,6 +5,7 @@ import {InventoryDto} from "../../dto/InventoryDto";
 import {ItemDto} from "../../dto/ItemDto";
 import {Injectable} from "@angular/core";
 import {InventoryLogDto} from "../../dto/InventoryLogDto";
+import {UserDto} from "../../dto/UserDto";
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +13,7 @@ export class DashboardService {
   apiUrlInventory = `${environment.rootUrl}/inventory`;
   apiUrlItem = `${environment.rootUrl}/item`;
   apiUrlInventoryLog = `${environment.rootUrl}/inventory-log`;
+  apiUrlUser = `${environment.rootUrl}/user`;
 
   constructor(private http: HttpClient) {
   }
@@ -42,4 +44,14 @@ export class DashboardService {
       })
     )
   }
+
+  getUsers(): Observable<any> {
+    return this.http.get<any>(this.apiUrlUser).pipe(
+      map((users: any[]) => {
+        return users.map(user =>
+          new UserDto(user.id, user.firstName, user.lastNames, user.email, user.phone, user.password, user.age, user.state))
+      })
+    )
+  }
+
 }

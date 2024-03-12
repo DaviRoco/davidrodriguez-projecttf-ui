@@ -4,6 +4,7 @@ import {ItemDto} from "../../dto/ItemDto";
 import {Subscription} from "rxjs";
 import {DashboardService} from "./dashboard.service";
 import {InventoryLogDto} from "../../dto/InventoryLogDto";
+import {UserDto} from "../../dto/UserDto";
 
 
 @Component({
@@ -15,6 +16,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   inventories: InventoryDto[] = [];
   items: ItemDto[] = [];
   logs: InventoryLogDto[] = [];
+  users: UserDto[] = [];
+  inactiveUsers: UserDto[] = [];
   dashboardSubscription: Subscription;
   stateType: string = 'todo';
   constructor(private dashboardService: DashboardService) {
@@ -23,6 +26,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getInventoryWithItemNames();
     this.getItemNames();
     this.getInventoryLogs();
+    this.getUsers();
   }
   onUpdateStateFilterChange(value: string) {
     this.stateType = value;
@@ -74,6 +78,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     })
   }
+
+  getUsers() {
+    this.dashboardSubscription = this.dashboardService.getUsers().subscribe({
+      next: (response) => {
+        response.forEach((user: UserDto) => {
+          if (user.state === "Inactivo"){
+            this.inactiveUsers.push(user);
+          }
+        })
+        this.users = response;
+      },
+      error: (error) => {
+        console.error('Error fetching data:', error);
+      }
+    })
+  }
+
   ngOnDestroy(): void {
     if (this.dashboardSubscription) {
       this.dashboardSubscription.unsubscribe();
