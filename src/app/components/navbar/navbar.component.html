@@ -6,12 +6,12 @@
     <ul class="navbar-nav align-items-center d-none d-md-flex">
       <li class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link pr-0" role="button" ngbDropdownToggle>
-          <div class="media align-items-center">
-            <span class="avatar avatar-sm rounded-circle">
+          <div class="media align-items-center" *ngIf="userName">
+           <span class="avatar avatar-sm rounded-circle">
               <img alt="Image placeholder" src="assets/img/theme/profilePicture_m.png">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
-              <span class="mb-0 text-sm  font-weight-bold">NOMBRE</span>
+              <span class="mb-0 text-sm  font-weight-bold"> {{ userName }} </span>
             </div>
           </div>
         </a>

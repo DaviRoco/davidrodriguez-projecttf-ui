@@ -8,12 +8,9 @@ import {UserDto} from "../../dto/UserDto";
   providedIn: 'root'
 })
 export class LoginService {
-  apiUrlUser = `${environment.rootUrl}/user-by-email/`;
 
-  constructor(private http: HttpClient) {
-  }
 
-  getUserByEmailAndPassword(user: UserDto): Observable<any> {
-    return this.http.get<any>(this.apiUrlUser + user.email)
-  }
+
+
+
 }

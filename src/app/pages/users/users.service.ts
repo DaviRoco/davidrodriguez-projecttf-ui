@@ -28,11 +28,4 @@ export class UsersService {
     return this.http.put<any>(this.apiUrlUser + '/state-change', user);
   }
 
-  setUserEmail(email: string) {
-    this.userEmail = email;
-  }
-
-  getUserEmail() {
-    return this.userEmail;
-  }
 }

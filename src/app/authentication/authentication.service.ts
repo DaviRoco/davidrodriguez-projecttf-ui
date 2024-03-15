@@ -16,18 +16,18 @@ export class AuthenticationService {
   constructor(private router: Router, private http: HttpClient) {
     this.lastActivityTime = Date.now();
     this.initSessionExpirationTimer();
+    this.isAuthenticated = this.checkAuthenticationStatus();
   }
 
   login(email: string, password: string): Observable<any> {
     let user = new UserDto("0", "", "", email, "", password, 0,"");
-    this.isAuthenticated = true;
-    this.lastActivityTime = Date.now();
     return this.http.post<any>(this.apiUrlUser, user);
   }
 
   logout(): void {
-    // TODO: LOGOUT CON EMAIL Y PASSWORD
     this.isAuthenticated = false;
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userEmail');
     this.router.navigate(['/login']).then(navigated => {
     });
   }
@@ -35,7 +35,9 @@ export class AuthenticationService {
   isLoggedIn(): boolean {
     return this.isAuthenticated;
   }
-
+  allowLogIn(): void {
+    this.isAuthenticated = true;
+  }
   initSessionExpirationTimer(): void {
     setInterval(() => {
       const currentTime = Date.now();
@@ -48,5 +50,9 @@ export class AuthenticationService {
 
   updateLastActivityTime(): void {
     this.lastActivityTime = Date.now();
+  }
+
+  private checkAuthenticationStatus(): boolean {
+    return !!localStorage.getItem('authToken');
   }
 }

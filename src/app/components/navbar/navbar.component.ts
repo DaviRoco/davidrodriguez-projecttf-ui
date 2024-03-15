@@ -1,8 +1,10 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import {AuthenticationService} from "../../authentication/authentication.service";
+import {UsersService} from "../../pages/users/users.service";
+import {NavbarService} from "./navbar.service";
 
 @Component({
   selector: 'app-navbar',
@@ -13,11 +15,18 @@ export class NavbarComponent implements OnInit {
   public focus: any;
   public listTitles: any[];
   public location: Location;
-  constructor(location: Location,  private element: ElementRef, private router: Router, private authenticationService: AuthenticationService) {
+  userName: string;
+  constructor(location: Location,  private element: ElementRef, private router: Router, private authenticationService: AuthenticationService, private userService: UsersService, private navbarService: NavbarService) {
     this.location = location;
   }
 
   ngOnInit() {
+    this.navbarService.getUserByEmail(localStorage.getItem('userEmail')).subscribe({
+      next: (response) => {
+        this.userName = response.firstName;
+
+      }
+    })
     this.listTitles = ROUTES.filter(listTitle => listTitle);
   }
   getTitle(){

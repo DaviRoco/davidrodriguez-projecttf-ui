@@ -19,6 +19,10 @@ import {DashboardService} from "../../pages/dashboard/dashboard.service";
 import {InventoryLogService} from "../../pages/inventory-log/inventory-log.service";
 import {UsersService} from "../../pages/users/users.service";
 import {UsersComponent} from "../../pages/users/users.component";
+import {NavbarService} from "../../components/navbar/navbar.service";
+import {AuthenticationService} from "../../authentication/authentication.service";
+import {LoginService} from "../../pages/login/login.service";
+import {UserProfileService} from "../../pages/user-profile/user-profile.service";
 
 @NgModule({
   imports: [
@@ -43,7 +47,8 @@ import {UsersComponent} from "../../pages/users/users.component";
     InventoryService,
     DashboardService,
     InventoryLogService,
-    UsersService
+    UsersService,
+    UserProfileService
   ],
 })
 
