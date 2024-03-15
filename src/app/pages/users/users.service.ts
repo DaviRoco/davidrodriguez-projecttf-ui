@@ -10,6 +10,7 @@ import {UserDto} from "../../dto/UserDto";
 
 export class UsersService {
   apiUrlUser = `${environment.rootUrl}/user`;
+  private userEmail: string;
 
   constructor(private http: HttpClient) {
   }
@@ -25,5 +26,13 @@ export class UsersService {
 
   changeUserState(user: UserDto): Observable<any> {
     return this.http.put<any>(this.apiUrlUser + '/state-change', user);
+  }
+
+  setUserEmail(email: string) {
+    this.userEmail = email;
+  }
+
+  getUserEmail() {
+    return this.userEmail;
   }
 }

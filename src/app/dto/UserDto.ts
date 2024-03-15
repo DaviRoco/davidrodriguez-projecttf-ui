@@ -1,5 +1,5 @@
 export class UserDto {
-  id: BigInt;
+  id: string;
   firstName: string;
   lastNames: string;
   email: string;
@@ -8,7 +8,7 @@ export class UserDto {
   age: number;
   state: string;
 
-  constructor(id: BigInt, firstName: string, lastNames: string, email: string, phone: string, password: string, age: number, state: string) {
+  constructor(id: string, firstName: string, lastNames: string, email: string, phone: string, password: string, age: number, state: string) {
     this.id = id;
     this.firstName = firstName;
     this.lastNames = lastNames;

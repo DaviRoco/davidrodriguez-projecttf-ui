@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Subscription} from "rxjs";
 import {AuthenticationService} from "../../authentication/authentication.service";
 import {Router} from "@angular/router";
+import {UsersService} from "../users/users.service";
 
 @Component({
   selector: 'app-login',
@@ -9,8 +10,11 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  showLoginError = false;
+  showLoginSuccess = false;
   constructor(
     private authenticationService: AuthenticationService,
+    private userService: UsersService,
     private router: Router
   ) {}
 
@@ -20,14 +24,26 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.authenticationService.login("email", "password");
-    this.router.navigate(['/dashboard']).then(navigated => {
-      if (navigated) {
-        console.log("Redirected to dashboard");
-      } else {
-        console.error("Navigation to dashboard failed");
-        // Optionally, handle the failure to navigate
+    const email = document.getElementById('input-email') as HTMLInputElement;
+    const password = document.getElementById('input-password') as HTMLInputElement;
+    this.authenticationService.login(email.value, password.value).subscribe({
+      next: (response) => {
+        if (response != null) {
+          this.userService.setUserEmail(response.email);
+          this.showLoginSuccess = true;
+          setTimeout(() => {
+            this.showLoginSuccess = false;
+          }, 2000);
+          this.router.navigate(['/dashboard']).then();
+        } else {
+          this.showLoginError = true;
+          setTimeout(() => {
+            this.showLoginError = false;
+          }, 2000);
+        }
       }
     });
+
+
   }
 }

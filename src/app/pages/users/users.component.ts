@@ -12,7 +12,7 @@ import {ItemDto} from "../../dto/ItemDto";
 export class UsersComponent implements OnInit, OnDestroy {
   users: UserDto[] = [];
   usersSubscription: Subscription;
-  stateChangeUserId: BigInt;
+  stateChangeUserId: string;
   userState: string;
   showChangeStateUserModal: boolean = false;
   changeStateUserError: boolean;
