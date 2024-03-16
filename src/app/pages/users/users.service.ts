@@ -28,4 +28,7 @@ export class UsersService {
     return this.http.put<any>(this.apiUrlUser + '/state-change', user);
   }
 
+  createUser(user: UserDto): Observable<any> {
+    return this.http.post<any>(this.apiUrlUser, user);
+  }
 }
