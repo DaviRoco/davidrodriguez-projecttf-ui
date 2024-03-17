@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   showPhoneError: boolean = false;
   showEmailError: boolean = false;
   createUserError: boolean = false;
+  genderType: string;
   constructor(private usersService: UsersService) { }
 
   ngOnInit() {
@@ -54,7 +55,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   changeUserState() {
     const confirmDelete = document.getElementById('input-confirm-delete') as HTMLInputElement;
     if (confirmDelete.value === "confirmar") {
-      const userDto = new UserDto(this.stateChangeUserId, "", "", "", "", "", 0, "");
+      const userDto = new UserDto(this.stateChangeUserId, "", "", "", "", "", 0, "", "");
       this.changeUserSuccess = true;
       setTimeout(() => {
         this.changeUserSuccess = false;
@@ -131,7 +132,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     if (invalid) {
       return;
     } else {
-      const user = new UserDto("", firstName.value, lastName.value, email.value, phone.value, "", parseInt(age.value), "");
+      const user = new UserDto("", firstName.value, lastName.value, email.value, phone.value, "", parseInt(age.value), "", this.genderType);
       this.usersSubscription = this.usersService.createUser(user).subscribe({
         next: (response) => {
           if (response != null) {
@@ -148,7 +149,9 @@ export class UsersComponent implements OnInit, OnDestroy {
       })
     }
   }
-
+  onGenderChange(value: string) {
+    this.genderType = value;
+  }
   ngOnDestroy(): void {
     if (this.usersSubscription) {
       this.usersSubscription.unsubscribe();

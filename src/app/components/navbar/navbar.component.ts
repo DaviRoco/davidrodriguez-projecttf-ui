@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
   public listTitles: any[];
   public location: Location;
   userName: string;
+  gender: string;
   constructor(location: Location,  private element: ElementRef, private router: Router, private authenticationService: AuthenticationService, private userService: UsersService, private navbarService: NavbarService) {
     this.location = location;
   }
@@ -24,7 +25,7 @@ export class NavbarComponent implements OnInit {
     this.navbarService.getUserByEmail(localStorage.getItem('userEmail')).subscribe({
       next: (response) => {
         this.userName = response.firstName;
-
+        this.gender = response.gender;
       }
     })
     this.listTitles = ROUTES.filter(listTitle => listTitle);

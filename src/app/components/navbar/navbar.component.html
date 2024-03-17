@@ -8,7 +8,8 @@
         <a class="nav-link pr-0" role="button" ngbDropdownToggle>
           <div class="media align-items-center" *ngIf="userName">
            <span class="avatar avatar-sm rounded-circle">
-              <img alt="Image placeholder" src="assets/img/theme/profilePicture_m.png">
+             <img *ngIf="gender === 'Male'" src="assets/img/theme/profilePicture_m.png" alt="profile picture">
+             <img *ngIf="gender === 'Female'" src="assets/img/theme/profilePicture_w.png" alt="profile picture">
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
               <span class="mb-0 text-sm  font-weight-bold"> {{ userName }} </span>

@@ -19,7 +19,7 @@ export class UsersService {
     return this.http.get<any>(this.apiUrlUser).pipe(
       map((users: any[]) => {
         return users.map(user =>
-        new UserDto(user.id, user.firstName, user.lastNames, user.email, user.phone, user.password, user.age, user.state))
+        new UserDto(user.id, user.firstName, user.lastNames, user.email, user.phone, user.password, user.age, user.state, user.gender))
       })
     )
   }
