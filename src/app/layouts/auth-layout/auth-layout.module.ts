@@ -6,6 +6,8 @@ import { AuthLayoutRoutes } from './auth-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginComponent } from '../../pages/login/login.component';
+import {ChangePasswordComponent} from "../../pages/change-password/change-password.component";
+import {ResetPasswordComponent} from "../../pages/reset-password/reset-password.component";
 @NgModule({
   imports: [
     CommonModule,
@@ -14,7 +16,9 @@ import { LoginComponent } from '../../pages/login/login.component';
     // NgbModule
   ],
   declarations: [
-    LoginComponent
+    LoginComponent,
+    ChangePasswordComponent,
+    ResetPasswordComponent
   ]
 })
 export class AuthLayoutModule { }

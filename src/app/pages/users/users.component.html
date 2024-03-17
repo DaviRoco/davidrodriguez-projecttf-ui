@@ -58,7 +58,7 @@
               <td>
                 {{ user.state }}
               </td>
-              <td>
+              <td *ngIf="user.password != '' && user.firstName != 'Admin1'">
                 <button *ngIf="user.state === 'Activo'" (click)="openUserDisableModal(user)" class="btn btn-sm btn-danger">
                   Desactivar
                 </button>
