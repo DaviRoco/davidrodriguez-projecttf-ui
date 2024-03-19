@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
-import { IconsComponent } from '../../pages/icons/icons.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import {UsersComponent} from "../../pages/users/users.component";
 import {InventoryComponent} from "../../pages/inventory/inventory.component";
@@ -14,6 +13,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
     { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
     { path: 'inventory', component: InventoryComponent, canActivate: [AuthGuard] },
-    { path: 'inventory-log', component: InventoryLogComponent, canActivate: [AuthGuard] },
-    { path: 'icons', component: IconsComponent, canActivate: [AuthGuard] }
+    { path: 'inventory-log', component: InventoryLogComponent, canActivate: [AuthGuard] }
 ];

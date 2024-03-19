@@ -7,7 +7,6 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
-import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
@@ -19,9 +18,6 @@ import {DashboardService} from "../../pages/dashboard/dashboard.service";
 import {InventoryLogService} from "../../pages/inventory-log/inventory-log.service";
 import {UsersService} from "../../pages/users/users.service";
 import {UsersComponent} from "../../pages/users/users.component";
-import {NavbarService} from "../../components/navbar/navbar.service";
-import {AuthenticationService} from "../../authentication/authentication.service";
-import {LoginService} from "../../pages/login/login.service";
 import {UserProfileService} from "../../pages/user-profile/user-profile.service";
 
 @NgModule({
@@ -36,7 +32,6 @@ import {UserProfileService} from "../../pages/user-profile/user-profile.service"
   declarations: [
     UserProfileComponent,
     TablesComponent,
-    IconsComponent,
     MapsComponent,
     InventoryComponent,
     DashboardComponent,

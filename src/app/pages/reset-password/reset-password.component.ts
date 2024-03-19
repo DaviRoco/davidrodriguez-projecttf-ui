@@ -56,7 +56,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   sendResetEmail(user: UserDto) {
     this.resetPasswordService.sendResetEmail(user).subscribe({
       next: () => {
-        // this.router.navigate(['/change-password'],{ queryParams: { email: user.email } }).then();
+        this.router.navigate(['/login']).then();
       }
     });
   }

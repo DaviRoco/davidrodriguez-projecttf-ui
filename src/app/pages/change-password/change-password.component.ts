@@ -79,31 +79,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     });
 
   }
-  // login() {
-  //   const email = document.getElementById('input-email') as HTMLInputElement;
-  //   const password = document.getElementById('input-password') as HTMLInputElement;
-  //   this.authenticationService.login(email.value, password.value).subscribe({
-  //     next: (response) => {
-  //       if (response != null) {
-  //         localStorage.setItem('authToken', 'example_token');
-  //         localStorage.setItem('userEmail', response.email);
-  //         this.authenticationService.allowLogIn();
-  //         this.showLoginSuccess = true;
-  //         setTimeout(() => {
-  //           this.showLoginSuccess = false;
-  //         }, 2000);
-  //         this.router.navigate(['/dashboard']).then();
-  //       } else {
-  //         this.showLoginError = true;
-  //         setTimeout(() => {
-  //           this.showLoginError = false;
-  //         }, 2000);
-  //       }
-  //     }
-  //   });
-  //
-  //
-  // }
+
   getEmailFromUrl(url: string): string | null {
     const searchParams = new URLSearchParams(url.split('?')[1]);
     return searchParams.get('email');
