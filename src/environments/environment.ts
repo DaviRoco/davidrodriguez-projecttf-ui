@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  rootUrl: 'http://localhost:8080'
+  rootUrl: 'http://production-alb-128757423.us-east-1.elb.amazonaws.com'
 };
 
 /*
