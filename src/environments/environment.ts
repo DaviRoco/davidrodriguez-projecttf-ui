@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  rootUrl: 'http://production-alb-128757423.us-east-1.elb.amazonaws.com'
+  rootUrl: 'http://production-alb-930747014.us-east-1.elb.amazonaws.com'
 };
 
 /*
